@@ -2,22 +2,22 @@
 #include <memory>
 
 template <typename T>
-class Node
+class NodeList
 {
 public:
     T data;
-    std::shared_ptr<Node<T>> next;
-    std::shared_ptr<Node<T>> prev;
+    std::shared_ptr<NodeList<T>> next;
+    std::shared_ptr<NodeList<T>> prev;
 
-    Node(T value) : data(value), prev(nullptr), next(nullptr) {}
+    NodeList(T data_arg) : data(data_arg), prev(nullptr), next(nullptr) {}
 };
 
 template <typename T>
 class LinkedList
 {
 private:
-    std::shared_ptr<Node<T>> head;
-    std::shared_ptr<Node<T>> tail;
+    std::shared_ptr<NodeList<T>> head;
+    std::shared_ptr<NodeList<T>> tail;
     size_t size;
 
 public:
@@ -25,12 +25,12 @@ public:
     ~LinkedList() = default;
 
     bool is_empty() const;
-    void add_first(T value);
+    void add_first(T data_arg);
     void remove_first();
-    void add_last(T value);
+    void add_last(T data_arg);
     void remove_last();
     void display() const;
-    bool search(T value) const;
+    bool search(T data_arg) const;
     size_t get_size() const;
 };
 
@@ -41,18 +41,18 @@ bool LinkedList<T>::is_empty() const
 }
 
 template <typename T>
-void LinkedList<T>::add_first(T value)
+void LinkedList<T>::add_first(T data_arg)
 {
-    std::shared_ptr<Node<T>> new_node = std::make_shared<Node<T>>(value);
+    std::shared_ptr<NodeList<T>> new_NodeList = std::make_shared<NodeList<T>>(data_arg);
     if (is_empty())
     {
-        head = tail = new_node;
+        head = tail = new_NodeList;
     }
     else
     {
-        new_node->next = head;
-        head->prev = new_node;
-        head = new_node;
+        new_NodeList->next = head;
+        head->prev = new_NodeList;
+        head = new_NodeList;
     }
     size++;
 }
@@ -62,7 +62,7 @@ void LinkedList<T>::remove_first()
 {
     if (!is_empty())
     {
-        std::shared_ptr<Node<T>> temp = head;
+        std::shared_ptr<NodeList<T>> temp = head;
         head = head->next;
         if (head)
         {
@@ -77,28 +77,28 @@ void LinkedList<T>::remove_first()
 }
 
 template <typename T>
-void LinkedList<T>::add_last(T value)
+void LinkedList<T>::add_last(T data_arg)
 {
-    std::shared_ptr<Node<T>> new_node = std::make_shared<Node<T>>(value);
+    std::shared_ptr<NodeList<T>> new_NodeList = std::make_shared<NodeList<T>>(data_arg);
     if (is_empty())
     {
-        head = tail = new_node;
+        head = tail = new_NodeList;
     }
     else
     {
-        new_node->prev = tail;
-        tail->next = new_node;
-        tail = new_node;
+        new_NodeList->prev = tail;
+        tail->next = new_NodeList;
+        tail = new_NodeList;
     }
     size++;
 }
 
 template <typename T>
-void LinkedList<T>::remove_last() 
+void LinkedList<T>::remove_last()
 {
     if (!is_empty())
     {
-        std::shared_ptr<Node<T>> temp = tail;
+        std::shared_ptr<NodeList<T>> temp = tail;
         tail = tail->prev;
         if (tail)
         {
@@ -115,7 +115,7 @@ void LinkedList<T>::remove_last()
 template <typename T>
 void LinkedList<T>::display() const
 {
-    std::shared_ptr<Node<T>> current = head;
+    std::shared_ptr<NodeList<T>> current = head;
     while (current)
     {
         std::cout << current->data << " ";
@@ -125,16 +125,16 @@ void LinkedList<T>::display() const
 }
 
 template <typename T>
-bool LinkedList<T>::search(T value) const
+bool LinkedList<T>::search(T data_arg) const
 {
-    std::shared_ptr<Node<T>> current = head;
+    std::shared_ptr<NodeList<T>> current = head;
     while (current)
     {
-        if (current->data == value)
+        if (current->data == data_arg)
         {
             return true;
         }
-        current = current->next;        
+        current = current->next;
     }
     return false;
 }
